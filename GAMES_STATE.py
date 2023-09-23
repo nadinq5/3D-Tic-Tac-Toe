@@ -1,11 +1,38 @@
+from PLAYER import Player
 from RULES import Rules
 class Game_State():
 
-    def start(self):
-        pass
 
-    def restart(self):
+    def game_start(self):
         pass
+    def start(self, player1=None, player2=None):
+        if(player1 != None and player2 != None):
+            self.game_start(player1, player2)
+        else:
+            print(f'Hello, welcome to 3D Tic-Tac-Toe.')
+            player1_name = input(f'Please enter the name of the first player: ')
+            player_exists(player1_name)
+
+
+
+
+
+            player1 = Player()
+            player2 = Player()
+            player1.input_player()
+
+    def restart(self, player1, player2):
+        valid_input = False
+        while not valid_input:
+            play_again = input(f'Would you like to play another game? (Yes/No)')
+            if play_again == 'Yes':
+                self.start(player1, player2)
+                valid_input = True
+            elif play_again == 'No':
+                print('Exiting game... Thanks for playing')
+                exit()
+            else:
+                print('Please enter a valid input.')
 
     def check_win_2d(self, floor, x_cord, y_cord, x_or_o):
         possible_solutions = []
@@ -44,15 +71,15 @@ class Game_State():
                 if (y_cord, x_cord) == j:
                     possible_solutions.append(i)
 
-        if(Rules.floor_dictionary.get(floor) == 'T'):
+        if Rules.floor_dictionary.get(floor) == 'T':
             for k in possible_solutions:
-                if(k.index((y_cord, x_cord)) == 2):
+                if k.index((y_cord, x_cord)) == 2:
                     k = k.reverse()
-        elif(Rules.floor_dictionary.get(floor) == 'B'):
+        elif Rules.floor_dictionary.get(floor) == 'B':
             for k in possible_solutions:
-                if (k.index((y_cord, x_cord)) == 0):
+                if k.index((y_cord, x_cord)) == 0:
                     k = k.reverse()
-        elif(Rules.floor_dictionary.get(floor) == 'M'):
+        elif Rules.floor_dictionary.get(floor) == 'M':
             for k in range(len(possible_solutions)):
                 possible_solutions.append(possible_solutions[k].reverse())
 
@@ -70,29 +97,35 @@ class Game_State():
                 counter += 1
             if counter == 3:
                 return True
-            else:
-                return False
+        return False
 
     # def check_wins:
     #     pass
-
-
-
-
-    def check_win(self, cube, floor, x_cord, y_cord, x_or_o, player):
+    def check_win(self, cube, floor, x_cord, y_cord, x_or_o, player, player2):
         if self.check_win_2d(floor, x_cord, y_cord, x_or_o) == True:
-            self.end(player)
+            self.end(player, player2)
 
         if self.check_win_vertical(cube, x_cord, y_cord, x_or_o):
-            self.end(player)
+            self.end(player, player2)
 
         if floor != 'M':
             if self.check_win_diag(self, cube, floor, x_cord, y_cord, x_or_o) == True:
-                self.end(player)
+                self.end(player, player2)
         elif floor == 'M' and x_cord == 1 and y_cord == 1:
             if self.check_win_diag(self, cube, floor, x_cord, y_cord, x_or_o) == True:
                 self.end(player)
 
-    def end(self, player):
-        # you are player you have won
-        pass
+    def end(self, player, player2):
+        print(f'Congratulations {player.name}, you have won!')
+        player.add_score()
+        player.add_wins()
+        print(f'Wins: {player.wins}')
+        print(f'Total Score: {player.score}')
+        self.restart(player, player2)
+
+# def main():
+#     cube =
+
+
+# if __name__ == "__main__":
+#     main()

@@ -18,7 +18,7 @@ def main():
     matrix2 = Matrix()
     matrix3 = Matrix()
     cube = Cube(matrix1, matrix2, matrix3)
-    print(cube.M)
+    print(cube)
 
 if __name__ == '__main__':
     main()
