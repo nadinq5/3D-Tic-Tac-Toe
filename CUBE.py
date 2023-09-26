@@ -7,8 +7,11 @@ class Cube:
         self.B = matrix3
 
     def __str__(self):
-        print(self.T)
+        print('T:',end="")
+        print(f'{self.T}')
+        print('M:', end="")
         print(self.M)
+        print('B:', end="")
         print(self.B)
         return ""
 
